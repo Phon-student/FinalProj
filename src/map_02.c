@@ -11,7 +11,8 @@ void map_setup () {
 }
 
 void map_logic () {
-	motorSpeed(1000, 1000);
+	sensorRead(&sensor);
+	motorSpeed(1000, 0);
 }
 
 #endif
