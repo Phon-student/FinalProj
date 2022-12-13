@@ -28,13 +28,13 @@ void	PIDUpdate (PID *pid) {
 	// Sets the new previous error
 	pid->pErr = err;
 	// Calculates the integral term
-	if (pid->Iterm > -1023 && pid->Iterm < 1023)
+	if (pid->Iterm > -100 && pid->Iterm < 100)
 		pid->Iterm += err * pid->ki;
 
 	// Calculates the output
 	pid->output = Pterm + pid->Iterm + Dterm;
-	if (pid->output > 1023)
-		pid->output = 1023;
-	else if (pid->output <= -1023)
-		pid->output = -1023;
+	if (pid->output > 100)
+		pid->output = 100;
+	else if (pid->output <= -100)
+		pid->output = -100;
 }

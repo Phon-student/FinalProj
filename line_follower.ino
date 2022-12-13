@@ -27,33 +27,36 @@ void setup () {
 	sensorCalibrate(&sensor);
 	PIDInit(&pid, &sensor.val);
 	PIDSetTarget(&pid, IR_LEN >> 1);
+
 	// Serial.print("Threshold: ");
 	// Serial.println(sensor.thresh);
-	// delay(5000);
+	delay(2000);
 }
 
 void loop () {
-	sensorRead(&sensor);
+	 sensorRead(&sensor);
 
-	PIDSetConst(&pid, 0.8, 0.1, 0.1);
+	 PIDSetConst(&pid, 50, 2.2, 0.5);
 
-	motorSpeed(900 + pid.output, 900 - pid.output);
+	 motorSpeed(150 + pid.output, 150 - pid.output);
 
-	// Serial.println(pid.output);
+  // if (pid.output < 1.5)
+  //   motorSpeed(800, 1000);
+  // else if (pid.output > 2.5)
+  //   motorSpeed(1000, 800);  
+  // else
+  //   motorSpeed(1000, 1000);
 
-	// for (byte i = 0; i < IR_LEN; i++) {
-	// 	Serial.print(sensor.read[i]);
-	// 	Serial.print(" ");
-	// }
-	// Serial.println("\n");
+	for (byte i = 0; i < IR_LEN; i++) {
+		Serial.print(sensor.read[i]);
+		Serial.print(" ");
+	}
+	Serial.println("\n");
 
-	// Serial.println(sensor.val);
-	// if (sensor.val < 1.5)
-	// 	motorSpeed(0, 1000);
-	// else if (sensor.val > 2.5)
-	// 	motorSpeed(1000, 0);
-	// else
-	// 	motorSpeed(1000, 1000);
+	//  Serial.print("Value: ");
+	//  Serial.println(sensor.val);
+	//  Serial.print("Output: ");
+	//  Serial.println(pid.output);
 
-	PIDUpdate(&pid);
+	 PIDUpdate(&pid);
 }

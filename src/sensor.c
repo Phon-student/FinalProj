@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 void sensorInit(SensorArr *sensor) {
+	byte n = 0;
 	for (byte i = 0; i < IR_LEN; i++) {
 		// Sets' the pinmode of each pins.
 		pinMode(IR_PINS[i], INPUT);
@@ -15,36 +16,37 @@ void sensorInit(SensorArr *sensor) {
 	sensor->val = 0;
 	sensor->outofbound = false;
 	sensor->intersect = false;
+	sensor->thresh = 0;
+	motorSpeed(200, 200);
+	while (++n < 10)
+	{
+		sensorGetRange(sensor);
+		delay(20);
+	}
+	motorSpeed(-200, 200);
+	delay(200);
+	motorSpeed(200, -200);
+	delay(400);
+	motorSpeed(-200, 200);
+	while (--n != 0)
+	{
+		sensorGetRange(sensor);
+		delay(20);
+	}
+	motorSpeed(-200, -200);
+	delay(200);
+	motorSpeed(0, 0);
 }
 
 void sensorCalibrate(SensorArr *sensor) {
-	bool noisy = false;
+	int maxMin = 0;
 
-	// Rough tuning
-	do {
-		sensor->thresh += 5;
-		for (byte i = 0; i < IR_LEN; i++)
-		{
-			noisy = analogRead(IR_PINS[i]) > sensor->thresh;
-			if (noisy)
-				break;
-		}
-		delay(10);
-	} while (noisy);
-	// Fine tuning
-	while (noisy) {
-		sensor->thresh++;
-		for (byte n = 0; n < 10; n++)
-		{
-			for (byte i = 0; i < IR_LEN; i++)
-			{
-				noisy = analogRead(IR_PINS[i]) > sensor->thresh;
-				if (noisy)
-					break;
-			}
-			delay(5);
-		}
-	};
+	for (byte i = 0; i < IR_LEN; i++)
+	{
+		if (sensor->min[i] > maxMin)
+			maxMin = sensor->min[i];
+	}
+	sensor->thresh = maxMin + 10;
 }
 
 void sensorGetRange(SensorArr *sensor) {
@@ -55,7 +57,7 @@ void sensorGetRange(SensorArr *sensor) {
 		if (sensor->min[i] > sensor->read[i])
 			sensor->min[i] = sensor->read[i];
 		// Sets the sensor value.
-		sensor->read[i] = sensor->read[i] - sensor->min[i];
+		sensor->read[i] -= sensor->min[i];
 		// Same thing for sensor's maximum value.
 		if (sensor->max[i] < sensor->read[i])
 			sensor->max[i] = sensor->read[i];
@@ -66,8 +68,6 @@ void sensorGetRange(SensorArr *sensor) {
 
 void sensorRead(SensorArr *sensor) {
 	float	a = 0, b = 0;
-	// Gets sensor's range
-	sensorGetRange(sensor);
 	for (byte i = 0; i < IR_LEN; i++) {
 		// // Reads the senosr's value, and store it for later use.
 		// sensor->read[i] = analogRead(IR_PINS[i]);
