@@ -28,13 +28,13 @@ void	PIDUpdate (PID *pid) {
 	// Sets the new previous error
 	pid->pErr = err;
 	// Calculates the integral term
-	if (pid->Iterm > -100 && pid->Iterm < 100)
+	if (pid->Iterm > -MAX_SPEED && pid->Iterm < MAX_SPEED)
 		pid->Iterm += err * pid->ki;
 
 	// Calculates the output
 	pid->output = Pterm + pid->Iterm + Dterm;
-	if (pid->output > 100)
-		pid->output = 100;
-	else if (pid->output <= -100)
-		pid->output = -100;
+	if (pid->output > MAX_SPEED)
+		pid->output = MAX_SPEED;
+	else if (pid->output <= -MAX_SPEED)
+		pid->output = -MAX_SPEED;
 }

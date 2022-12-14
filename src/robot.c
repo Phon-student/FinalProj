@@ -12,34 +12,22 @@ void motorInit() {
 }
 
 void motorSpeed(int a, int b) {
-	if (a != 0) {
-		if (a > 0) {
-			digitalWrite(MOTR_A[1], HIGH);
-			digitalWrite(MOTR_A[2], LOW);
-			analogWrite(MOTR_A[0], a);
-		} else if (a < 0) {
-			digitalWrite(MOTR_A[1], LOW);
-			digitalWrite(MOTR_A[2], HIGH);
-			analogWrite(MOTR_A[0], -a);
-		}
-	} else {
-		digitalWrite(MOTR_A[1], LOW);
+	if (a > 0) {
+		digitalWrite(MOTR_A[1], HIGH);
 		digitalWrite(MOTR_A[2], LOW);
-		analogWrite(MOTR_A[0], 0);
+		analogWrite(MOTR_A[0], a);
+	} else if (a < 0) {
+		digitalWrite(MOTR_A[1], LOW);
+		digitalWrite(MOTR_A[2], HIGH);
+		analogWrite(MOTR_A[0], -a);
 	}
-	if (b != 0) {
-		if (b > 0) {
-			digitalWrite(MOTR_B[1], HIGH);
-			digitalWrite(MOTR_B[2], LOW);
-			analogWrite(MOTR_B[0], b);
-		} else if (b < 0) {
-			digitalWrite(MOTR_B[1], LOW);
-			digitalWrite(MOTR_B[2], HIGH);
-			analogWrite(MOTR_B[0], -b);
-		}
-	} else {
-		digitalWrite(MOTR_B[1], LOW);
+	if (b > 0) {
+		digitalWrite(MOTR_B[1], HIGH);
 		digitalWrite(MOTR_B[2], LOW);
-		analogWrite(MOTR_B[0], 0);
+		analogWrite(MOTR_B[0], b);
+	} else if (b < 0) {
+		digitalWrite(MOTR_B[1], LOW);
+		digitalWrite(MOTR_B[2], HIGH);
+		analogWrite(MOTR_B[0], -b);
 	}
 }

@@ -2,6 +2,7 @@
 #define PID_H
 
 #include <Arduino.h>
+#include "../lib/robot.h"
 
 // PID controller data structure
 typedef struct {

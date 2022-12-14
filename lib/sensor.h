@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <stdbool.h>
+#include "../lib/robot.h"
 
 #define IR_LEN  (byte)		5						// Number of sensors
 #define IR_PINS	(byte[])	{ A0, A1, A2, A3, A4 }	// IR pin define
