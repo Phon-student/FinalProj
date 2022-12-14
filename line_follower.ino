@@ -82,8 +82,8 @@ void loop() {
 						state = 1;
 				break;
 				case 2:
-					motorSpeed(BASE_SPEED, MAX_SPEED);
-					if (sensor.val <= pid.target)
+					motorSpeed(MAX_SPEED, BASE_SPEED);
+					if (sensor.val >= pid.target)
 						state = 1;
 				break;
 				case 3:
