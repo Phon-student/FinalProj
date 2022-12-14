@@ -28,7 +28,7 @@ byte		intr = 0;
 byte		turns[] = {
 	0,				// First section
 	0, 0, 0, 0,		// Second section
-	0, 0			// Third section
+	0, 0,			// Third section
 	2,				// Fourth section
 	3				// End
 };
